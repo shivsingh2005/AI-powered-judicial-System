@@ -89,3 +89,10 @@ firebase-debug.log
 # Misc
 *.tmp
 *.temp
+
+# JSON temp files
+tmp_*.json
+
+# Markdown files
+*.md
+!README.md
