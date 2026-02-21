@@ -6,9 +6,11 @@ import { FEATURE_FLAGS } from '../featureFlags';
 import { BiasMonitor } from './addons/BiasMonitor';
 import { EyeIcon } from './icons/EyeIcon';
 import { ShieldCheckIcon } from './icons/ShieldCheckIcon';
+import { ChartBarIcon } from './icons/ChartBarIcon';
+import { JudicialAnalytics } from './JudicialAnalytics';
 import { useTranslations } from '../hooks/useTranslations';
 
-type JudgeView = 'explainability' | 'biasmonitor';
+type JudgeView = 'explainability' | 'biasmonitor' | 'analytics';
 
 export const JudgeDashboard: React.FC = () => {
     const [activeView, setActiveView] = useState<JudgeView>('explainability');
@@ -32,12 +34,17 @@ export const JudgeDashboard: React.FC = () => {
                                     <ShieldCheckIcon className="w-5 h-5"/>
                                     {t.judgeDashboard.biasMonitor}
                                 </button>
+                                <button onClick={() => setActiveView('analytics')} className={`whitespace-nowrap pb-3 px-1 border-b-2 font-medium text-sm flex items-center gap-2 ${activeView === 'analytics' ? 'border-[rgb(var(--primary))] text-[rgb(var(--primary))]' : 'border-transparent text-[rgb(var(--muted-foreground))] hover:text-[rgb(var(--foreground))]'}`}>
+                                    <ChartBarIcon className="w-5 h-5"/>
+                                    {t.judicialAnalytics?.title || 'Judicial Analytics'}
+                                </button>
                             </nav>
                         </div>
                     )}
                    
                     {activeView === 'explainability' && <ExplainableAI />}
                     {activeView === 'biasmonitor' && FEATURE_FLAGS.aiBiasMonitor && <BiasMonitor />}
+                    {activeView === 'analytics' && <JudicialAnalytics />}
                  </div>
             </div>
 

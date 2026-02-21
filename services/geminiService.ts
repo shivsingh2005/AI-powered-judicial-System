@@ -48,6 +48,11 @@ export async function getPrecedentAnalysis(documentText: string): Promise<Preced
   return apiCall<PrecedentAnalysisResult>('/judge/precedent-analysis', { document_text: documentText });
 }
 
+// Judicial Analytics - calls judge/analytics endpoint
+export async function getJudicialAnalytics(caseContext: string, timeframe: string = 'last_5_years'): Promise<any> {
+  return apiCall<any>('/judge/analytics', { case_context: caseContext, timeframe });
+}
+
 // CitizenDashboard - calls citizen/analyze-dispute endpoint
 export async function analyzeDispute(disputeDescription: string): Promise<CitizenAnalysisResult> {
   return apiCall<CitizenAnalysisResult>('/citizen/analyze-dispute', { dispute_text: disputeDescription });

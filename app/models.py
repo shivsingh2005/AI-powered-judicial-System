@@ -141,3 +141,26 @@ class LegalDraftRequest(BaseModel):
     draft_type: str
     case_context: str
     key_points: str
+
+# ==================== Judicial Analytics Models ====================
+class MetricValue(BaseModel):
+    name: str
+    value: float
+    description: Optional[str] = None
+
+class TimeSeriesPoint(BaseModel):
+    period: str
+    value: float
+
+class JudicialAnalyticsResult(BaseModel):
+    cases_per_year: List[MetricValue]
+    avg_time_to_disposition_days: float
+    backlog_size: int
+    win_rates_by_case_type: List[MetricValue]
+    caseload_distribution: List[MetricValue]
+    time_to_resolution_series: List[TimeSeriesPoint]
+    precedent_heatmap_summary: List[MetricValue]
+    judge_trend_insights: List[str]
+    diversity_metrics: List[MetricValue]
+    predicted_backlog_trend: List[TimeSeriesPoint]
+    recommended_resource_actions: List[str]

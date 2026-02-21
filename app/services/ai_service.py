@@ -407,3 +407,31 @@ async def generate_case_requests(count: int = 3) -> Any:
     )
     human_prompt = template.replace('{COUNT}', str(count))
     return await invoke_json_llm(manager.primary, system_prompt, human_prompt)
+
+
+async def get_judicial_analytics(case_context: str, timeframe: str = 'last_5_years') -> Dict[str, Any]:
+    """Request a structured judicial analytics report from the LLM."""
+    validate_input(case_context)
+    manager = get_llm_manager()
+
+    system_prompt = (
+        'You are an expert judicial analyst and data-driven legal strategist. Produce a structured JSON analytics report for judges.'
+    )
+    human_prompt = (
+        'Case Context: ' + case_context + '\n\n'
+        f'Timeframe: {timeframe}\n\n'
+        'Return a single valid JSON object with the following fields:\n'
+        '- cases_per_year: array of {name, value, description}\n'
+        '- avg_time_to_disposition_days: number\n'
+        '- backlog_size: integer\n'
+        '- win_rates_by_case_type: array of {name, value, description}\n'
+        '- caseload_distribution: array of {name, value}\n'
+        '- time_to_resolution_series: array of {period, value}\n'
+        '- precedent_heatmap_summary: array of {name, value}\n'
+        '- judge_trend_insights: array of short insight strings\n'
+        '- diversity_metrics: array of {name, value, description}\n'
+        '- predicted_backlog_trend: array of {period, value}\n'
+        '- recommended_resource_actions: array of short action strings\n'
+        '\nReturn only valid JSON. Do not include prose outside the JSON.'
+    )
+    return await invoke_json_llm(manager.primary, system_prompt, human_prompt)
